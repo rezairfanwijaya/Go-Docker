@@ -2,7 +2,12 @@ FROM golang:alpine
 
 RUN apk update && apk add git
 
-ENV AUTHOR="reza irfan wijaya"
+ARG author="reza irfan wijaya"
+
+ENV AUTHOR=${author}
+
+RUN echo "Selamat datang diaplikasi pertama saya"
+RUN echo "created by ${author}"
 
 WORKDIR /app
 
