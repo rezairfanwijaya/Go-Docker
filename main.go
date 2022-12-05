@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
@@ -16,30 +17,22 @@ func main() {
 
 	author := env["AUTHOR"]
 	port := env["PORT"]
-	address := fmt.Sprintf("localhost:%v", port)
+	address := fmt.Sprintf("0.0.0.0:%v", port)
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != "GET" {
-			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
-			return
-		}
+	r := gin.Default()
 
-		response := "Hello"
+	r.GET("/", func(c *gin.Context) {
+		response := "Hallo "
 		if author != "" {
-			response = response + " from " + author
+			response = response + author
 		}
 
-		w.Write([]byte(response))
+		c.JSON(http.StatusOK, map[string]string{
+			"data": response,
+		})
 	})
 
-	if port == "" {
-		log.Fatal("PORT env is required")
-	}
+	log.Println("server run on : ", address)
 
-	fmt.Printf("server run on %v\n", address)
-
-	if err := http.ListenAndServe(address, mux); err != nil {
-		log.Fatal(err)
-	}
+	r.Run(address)
 }
