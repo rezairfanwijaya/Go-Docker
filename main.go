@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -15,7 +16,9 @@ func main() {
 		log.Fatalf("ERROR : %v", err)
 	}
 
-	author := env["AUTHOR"]
+	// env author akan di set melalu dockerfile
+	// karena dockerfile juga bisa mengartur value env
+	author := os.Getenv("AUTHOR")
 	port := env["PORT"]
 	address := fmt.Sprintf("0.0.0.0:%v", port)
 
