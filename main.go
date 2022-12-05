@@ -31,7 +31,7 @@ func main() {
 		}
 
 		c.JSON(http.StatusOK, map[string]string{
-			"data": response,
+			"message": response,
 		})
 	})
 
