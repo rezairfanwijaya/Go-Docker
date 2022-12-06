@@ -16,4 +16,5 @@ func Router(db *gorm.DB, r *gin.Engine) {
 
 	v1 := r.Group("v1")
 	v1.POST("/login", userHandler.Login)
+	v1.GET("/users", userHandler.GetAllUser)
 }

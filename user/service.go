@@ -9,6 +9,7 @@ import (
 
 // interface
 type IUserService interface {
+	FindAll() ([]User, error)
 	Save(input UserInputLogin) (User, error)
 }
 
@@ -55,4 +56,13 @@ func (s *UserService) Save(input UserInputLogin) (User, error) {
 	}
 
 	return userSaved, nil
+}
+
+func (s *UserService) FindAll() ([]User, error) {
+	users, err := s.userRepo.FindAll()
+	if err != nil {
+		return users, err
+	}
+
+	return users, nil
 }

@@ -63,3 +63,14 @@ func UserFormatter(user user.User) userFormat {
 		Email:    user.Email,
 	}
 }
+
+func UsersFormatter(users []user.User) []userFormat {
+	var allUser []userFormat
+
+	for _, user := range users {
+		userFormatted := UserFormatter(user)
+		allUser = append(allUser, userFormatted)
+	}
+
+	return allUser
+}

@@ -5,6 +5,7 @@ import "gorm.io/gorm"
 // interface
 type IUserRepository interface {
 	FindByEmail(email string) (User, error)
+	FindAll() ([]User, error)
 	Save(user User) (User, error)
 }
 
@@ -29,6 +30,15 @@ func (r *UserRepository) Save(user User) (User, error) {
 func (r *UserRepository) FindByEmail(email string) (User, error) {
 	var user User
 	if err := r.db.Where("email = ? ", email).Find(&user).Error; err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+func (r *UserRepository) FindAll() ([]User, error) {
+	var user []User
+	if err := r.db.Find(&user).Error; err != nil {
 		return user, err
 	}
 

@@ -53,5 +53,35 @@ func (h *UserHandler) Login(c *gin.Context) {
 		helper.UserFormatter(user),
 	)
 	c.JSON(http.StatusOK, response)
+}
+
+func (h *UserHandler) GetAllUser(c *gin.Context) {
+	users, err := h.userService.FindAll()
+	if err != nil {
+		response := helper.ResponseAPIFormatter(
+			"gagal",
+			"gagal mengambil data user",
+			http.StatusInternalServerError,
+			err,
+		)
+		c.JSON(http.StatusInternalServerError, response)
+		return
+	}
+
+	var userResponse interface{}
+
+	userFormatted := helper.UsersFormatter(users)
+	userResponse = userFormatted
+	if len(users) == 0 {
+		userResponse = users
+	}
+
+	response := helper.ResponseAPIFormatter(
+		"sukses",
+		"sukses login",
+		http.StatusOK,
+		userResponse,
+	)
+	c.JSON(http.StatusOK, response)
 
 }
