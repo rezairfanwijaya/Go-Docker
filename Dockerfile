@@ -6,8 +6,8 @@ ARG author="reza irfan wijaya"
 
 ENV AUTHOR=${author}
 
-RUN echo "Selamat datang diaplikasi pertama saya"
-RUN echo "created by ${author}"
+RUN echo "Selamat datang di aplikasi pertama saya"
+RUN echo "Created by ${author}"
 
 WORKDIR /app
 
