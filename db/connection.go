@@ -1,6 +1,7 @@
 package db
 
 import (
+	"errors"
 	"fmt"
 	"go-docker/helper"
 	"go-docker/user"
@@ -25,7 +26,8 @@ func Connection(path string) (*gorm.DB, error) {
 	dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local", databaseUsername, databasePassword, databaseHost, databasePort, databaseName)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		return db, err
+		errMsg := fmt.Sprintf("dsn : %v", err)
+		return db, errors.New(errMsg)
 	}
 
 	db.AutoMigrate(&user.User{})
