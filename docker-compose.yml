@@ -1,0 +1,36 @@
+# wajib menuliskan version
+# dapat kunjungi link https://docs.docker.com/compose/features-uses/
+version: "3.9"
+
+# lalu definisikan service yang akan di build
+# dalam hal ini service berarti container apa yang akan dibikin
+# karena aplikasi ini memilki 2 service
+# 1 aplikasi golang ini sendiri
+# 2 adalah service mariadb
+services:
+  go-user-docker:
+    # build menunjukan letak source code yang akan dijadikan image
+    build: .
+    # masukan environtment jika ada
+    # environment:
+    #   - name=value
+    ports:
+      - 7070:8080
+    networks:
+      - go-user-network
+
+  mariadbku:
+    # karena mariadb dibuild bukan dari source code yang kita buat
+    # tapi dari image maka penulisannya image bukan build
+    image: mariadb:latest
+    environment:
+      - MARIADB_ROOT_PASSWORD=12345
+    ports:
+      - 3304:3306
+    volumes:
+      - /d/CODING/docker/Learn-Docker-Noval-Agung/Go-Docker/data-backup:/var/lib/mysql
+    networks:
+      - go-user-network
+
+networks:
+  go-user-network:
