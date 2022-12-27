@@ -15,9 +15,19 @@ services:
     # environment:
     #   - name=value
     ports:
+      # penulisan port seperti ini akan mengakibatkan 
+      # port dapat diakses dari luar cluster (termasuk dapat diakses oleh host)
+      # jika hanya ingin diakses oleh lain container tetapi masih dalam satu cluster
+      # atau satu network maka penulisannya seperti ini
+      # 7070
+      # bukan 7070:8080
       - 7070:8080
     networks:
       - go-user-network
+    # depends_on akan membuat service go-user-docker menyala setelah service mariadbku menyala
+    # jadi akan menunggu mariadbku menyala baru go-user-docker akan menyala
+    depends_on:
+      - mariadbku
 
   mariadbku:
     # karena mariadb dibuild bukan dari source code yang kita buat
@@ -26,7 +36,7 @@ services:
     environment:
       - MARIADB_ROOT_PASSWORD=12345
     ports:
-      - 3304:3306
+      -   3304:3306
     volumes:
       - /d/CODING/docker/Learn-Docker-Noval-Agung/Go-Docker/data-backup:/var/lib/mysql
     networks:
